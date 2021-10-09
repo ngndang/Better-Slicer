@@ -1,2 +1,2 @@
 # Better-Slicer
- Aseprite scripts for auto slicing and manageing slices 
+ Aseprite scripts for auto slicing and managing slices 
