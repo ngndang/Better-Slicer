@@ -11,17 +11,19 @@ For more information check out the Itch page: https://ngndang.itch.io/better-sli
 **Changelog:**
 
 + v1.0: Initial release
-
+<br />
 
 ## Main features ##
+
 + Creating Slices Automatically 
 + Creating a Grid of slices based on Grid size
 + Creating a Grid of slices based on the number of columns and rows
  
  and also:
 + Naming and coloring slices 
-+ Works alongside [**SLICE MANAGER**](https://github.com/ngndang/Slice-Manager) - another script I made for managing large amounts of slices. You can rename, recolor, delete slices etc... all in bulk
++ Works alongside [**SLICE MANAGER**](https://github.com/ngndang/Slice-Manager) - another script I made for managing large amounts of slices. You can rename, recolor, delete ... multiple slices at once
 
+<br />
 ## How to use ##
 
 For guide to how to install a script check our this [Post](https://community.aseprite.org/t/aseprite-scripts-collection/3599) on the community
@@ -77,5 +79,6 @@ There are three modes:
 **Other information**
 + The naming format is: name_number, where number is the order of the sprite on the grid
 + Every operation is undo-able
-+ This script is written on Windows and I have not tested on Mac or Linux, but it should work  
++ This script works fine on the latest 3.0 beta, I am unsure about way older versions 
++ I work on Windows and I have not tested on Mac or Linux, but it should work  
 
