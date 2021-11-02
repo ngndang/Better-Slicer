@@ -21,7 +21,7 @@ For more information check out the Itch page: https://ngndang.itch.io/better-sli
  
  and also:
 + Naming and coloring slices 
-+ Works alongside [**SLICE MANAGER**](https://github.com/ngndang/Slice-Manager) - another script I made for managing large amounts of slices. You can rename, recolor, delete ... multiple slices at once
++ Works alongside [**SLICE MANAGER**](https://github.com/ngndang/Slice-Manager) - another script I made for managing large amounts of slices. You can **rename, recolor, delete, export** ... multiple slices at once
 
 <br />
 
