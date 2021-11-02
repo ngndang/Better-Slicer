@@ -48,6 +48,7 @@ There are three modes:
 <br />
 
 **NOTE:**
++ This function is still under development, there are still bugs (see itch page) 
 + The script (currently) will have to delete all current slices on the canvas
 + It will only create slices for your active/selected layer and frame.
 + Make sure your sprites are not connected/next to each other, or it will select the whole bunch 
