@@ -24,6 +24,7 @@ For more information check out the Itch page: https://ngndang.itch.io/better-sli
 + Works alongside [**SLICE MANAGER**](https://github.com/ngndang/Slice-Manager) - another script I made for managing large amounts of slices. You can rename, recolor, delete ... multiple slices at once
 
 <br />
+
 ## How to use ##
 
 For guide to how to install a script check our this [Post](https://community.aseprite.org/t/aseprite-scripts-collection/3599) on the community
@@ -66,6 +67,7 @@ There are three modes:
 ![tut_slice_by_size](https://user-images.githubusercontent.com/78392599/139844600-0303818f-37f4-4d53-9226-2a3547e3fb20.gif)
 
 <br />
+
 ============ **Grid by Count mode** ============
 
 1. Select an rectangular area with selection tool
