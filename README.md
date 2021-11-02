@@ -77,4 +77,5 @@ There are three modes:
 **Other information**
 + The naming format is: name_number, where number is the order of the sprite on the grid
 + Every operation is undo-able
++ This script is written on Windows and I have not tested on Mac or Linux, but it should work  
 
