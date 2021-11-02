@@ -47,7 +47,7 @@ There are three modes:
 **NOTE:**
 + The script (currently) will have to delete all current slices on the canvas
 + It will only create slices for your active/selected layer and frame.
-+ Make sure your sprites are not connected/next to each other, it will select the whole bunch 
++ Make sure your sprites are not connected/next to each other, or it will select the whole bunch 
 
 >Again, I'm still working on improving this feature for the future, so stay tuned ^^
 
