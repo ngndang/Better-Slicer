@@ -39,9 +39,9 @@ There are three modes:
 
 ============ **Automatic mode** ============ 
 
-**Step 1:** Just select the mode, hit *Slice*, and let my script do the rest!
+1. Just select the mode, hit *Slice*, and let my script do the rest!
 
-**Step 2:** Admire your artwork
+2. Admire your artwork
 
 ![tut_slice_auto](https://user-images.githubusercontent.com/78392599/139862305-4f9eeb4b-9e9a-4432-ad48-4aaf705672b6.gif)
 
