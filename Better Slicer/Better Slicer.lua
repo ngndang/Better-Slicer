@@ -16,7 +16,12 @@
 
 	-------------Author-------------------------
     by NgnDang (Ngn Hai Dang)
+
+	Follow me on:
     Twitter: http://twitter.com/ngndangg
+	Itch page: https://ngndang.itch.io/
+	Donation(Ko-fi): https://ko-fi.com/ngndang
+	to get notified about updates on my projects
 	
 	-------------About---------------------------
 	A handy script for slicing Aseprite sprites
@@ -28,9 +33,6 @@
 	This interface is similar to that of Unity's Sprite Editor
 	I hope you enjoy using this script as much as I do. It is really useful for working with big spritesheets
 	and just big projects overall.
-
-	If you would want to see more features please consider supporting me through Ko-fi
-	https://ko-fi.com/ngndang (Itch takes too many % lol)
 
 --]]
 
@@ -48,11 +50,11 @@ if app.activeImage:isEmpty() then app.alert("Error: Sprite is blank") return end
 
 
 -------------------------Dialog------------------------------
-local main_dialog = Dialog("Slice Sprite")
+local main_dialog = Dialog("Better Slicer")
 main_dialog
 	:combobox{  
-		id = "type",
-		label = "Type",
+		id = "mode",
+		label = "Mode",
 		option = mode_bySize,
 		options = {mode_auto, mode_bySize, mode_byCount },
 		onchange = function() updateDialog() end
@@ -119,20 +121,20 @@ function updateDialog() --Hide/Unhide elements based on mode
 	showCellSizeField(main_dialog, false)
 	showCellCountField(main_dialog, false)
 	showPaddingNOffsetField(main_dialog, false)
-	if main_dialog.data.type == mode_auto then
+	if main_dialog.data.mode == mode_auto then
 		showAllLabel(main_dialog, false)
 		showCellCountField(main_dialog, false)
 		showCellSizeField(main_dialog, false)
 		showPaddingNOffsetField(main_dialog, false)
 	end
-	if main_dialog.data.type == mode_bySize then
+	if main_dialog.data.mode == mode_bySize then
 		main_dialog
 			:modify{ id = "size_header", text = "Slice Size"}
 		showAllLabel(main_dialog, true)
 		showCellSizeField(main_dialog, true)
 		showPaddingNOffsetField(main_dialog, true)
 	end
-	if main_dialog.data.type == mode_byCount then
+	if main_dialog.data.mode == mode_byCount then
 		main_dialog
 			:modify{ id = "size_header", text = "Slice Count"}
 		showAllLabel(main_dialog, true)
@@ -146,21 +148,21 @@ updateDialog()
 ------------------------by Size, by Number mode Functions------------------------------
 
 function doSlice() --Start
-	if main_dialog.data.type == mode_bySize then
+	if main_dialog.data.mode == mode_bySize then
 		sliceBySize()
 	end
-	if main_dialog.data.type == mode_byCount then
+	if main_dialog.data.mode == mode_byCount then
 		sliceByCount()
 	end
-	if main_dialog.data.type == mode_auto then
+	if main_dialog.data.mode == mode_auto then
 		local alert_dialog = Dialog("Alert")
 		alert_dialog
 			:label{text = "Experimental Script!"}:newrow{}
 			:label{text = "This script will clear all current slices"}:newrow{}
-			:label{text = "Do you want to continue (._.) ?"}:newrow{}
+			:label{text = "Do you want to continue?"}:newrow{}
 			:button{ text = "Yes", focus = true, onclick= function() 
-				alert_dialog:close()
 				doAutoSlice()
+				alert_dialog:close()
 			end }
 			:button{ text = "Cancel", onclick= function() 
 				alert_dialog:close()
@@ -186,6 +188,7 @@ function sliceBySize()
 	data = main_dialog.data
 
 	GetBounds()
+	if selection.isEmpty then return end
 
 	cell_W = data.cell_W
 	cell_H = data.cell_H
@@ -200,6 +203,7 @@ function sliceByCount()
 	data = main_dialog.data
 
 	GetBounds()
+	if selection.isEmpty then return end
 
 	cell_W = math.floor( bounds_W / data.no_Col )
 	cell_H = math.floor( bounds_H / data.no_Row )
@@ -209,27 +213,27 @@ end
 
 --Create a Grid of slices based on the cells' size and the number of Collumns, Rows
 function createSliceGrid(data, selection, cellW, cellH, noCol, noRow)
-	i = 0
-	for col = 0, noCol - 1 do
-		for row = 0, noRow - 1 do
+	app.transaction( function()  
+		i = 0
+		for col = 0, noCol - 1 do
+			for row = 0, noRow - 1 do
 
-			X = col * cellW + col * data.padding_X + data.offset_X + selection.origin.x
-			Y = row * cellH + row * data.padding_Y + data.offset_Y + selection.origin.y
-		
-			slice = sprite:newSlice(Rectangle(X, Y, cellW, cellH))
-		
-			slice.color =  data.color
-			slice.name = data.name .. "_" .. i
+				X = col * cellW + col * data.padding_X + data.offset_X + selection.origin.x
+				Y = row * cellH + row * data.padding_Y + data.offset_Y + selection.origin.y
+			
+				slice = sprite:newSlice(Rectangle(X, Y, cellW, cellH))
+			
+				slice.color =  data.color
+				slice.name = data.name .. "_" .. i
 
-			i = i + 1
+				i = i + 1
+			end
 		end
-	end
+	end)
 end
 
 ------------------------Auto mode Variables------------------------------
 
-ogLayer = app.activeLayer
-ogFrame = app.activeFrame
 function getActiveCel(layer, frame)
     -- Loop through cels
     for i,cel in ipairs(layer.cels) do
@@ -240,12 +244,15 @@ function getActiveCel(layer, frame)
       end
     end
 end
-cel = getActiveCel(ogLayer, ogFrame)
 
-celW = cel.bounds.width
-celH = cel.bounds.height
-celX = cel.bounds.x
-celY = cel.bounds.y
+function getCel()
+	cel = getActiveCel(app.activeLayer, app.activeFrame)
+
+	celW = cel.bounds.width
+	celH = cel.bounds.height
+	celX = cel.bounds.x
+	celY = cel.bounds.y
+end
 
 ------------------------Auto mode Helper Functions------------------------------
 
@@ -258,7 +265,7 @@ end
 
 function inAnySlice(x, y) --Check if pixel is inside any slices
     for i, sli in ipairs(sprite.slices) do
-        if sli.bounds:contains(Rectangle(x, y, 1, 1)) or sli.bounds:intersects(Rectangle(x, y, 1, 1)) then 
+        if sli.bounds:contains(Rectangle(x, y, 1, 1)) then 
             return true
         end
     end
@@ -284,35 +291,41 @@ function clearSlices()
 end
 
 --------------------------Flood Fill-------------------------------
-local img = cel.image:clone()
+local img 
 
-local newColor = app.pixelColor.rgba(0, 0, 0, 255)
+local newColor = app.pixelColor.rgba(254, 1, 254, 255)
 
 local Xmax = 0
 local Xmin = 0
 local Ymax = 0
 local Ymin = 0
 
-local function isColorEqual(a, b)
+function isColorEqual(a, b)
     local pc = app.pixelColor
     return pc.rgbaR(a) == pc.rgbaR(b) and
             pc.rgbaG(a) == pc.rgbaG(b) and
             pc.rgbaB(a) == pc.rgbaB(b) and
             pc.rgbaA(a) == pc.rgbaA(b)
 end
-local function isColorEqualAt(x, y, color)
+function isColorEqualAt(x, y, color)
     local p = img:getPixel(x, y)
     return isColorEqual(p, color)
 end
-local function isTransparentAt(_x, _y) 
-    local p = img:getPixel(_x, _y)
+function isTransparentAt(x, y) 
+    local p = img:getPixel(x, y)
     return not isNotTransparent(p)
 end
 
-function floodFill(x, y, targetColor) 
-    if isTransparentAt(x, y) or isColorEqualAt(x, y, newColor) or x < 0 or x >= celW or y < 0 or y >= celH  then return end
+function isBadPixel(x, y)
+	return isTransparentAt(x, y) or isColorEqualAt(x, y, newColor) or x < 0 or x >= celW or y < 0 or y >= celH
+end
 
-	--Get the highest - lowest value of x, y when flood fill to determind the boudaries
+function floodFill(x, y, targetColor) 
+
+    if isBadPixel(x, y) then return end
+
+	--Get the max, min value of x, y when flood fill to determind the boudaries
+
     Xmax = math.max(Xmax, x)
     Xmin = math.min(Xmin, x)
     Ymax = math.max(Ymax, y)
@@ -331,9 +344,10 @@ function floodFill(x, y, targetColor)
 end
 
 function doAutoSlice()
-	clearSlices() 
-	img = cel.image:clone()
     app.transaction( function()  
+		clearSlices() 
+		getCel()
+		img = cel.image:clone()
         for Y = 0, celH - 1, 1 do --Rows
             local newSlice = nil
 
@@ -355,6 +369,7 @@ function doAutoSlice()
             end
         end
     end)
+	main_dialog:close()
 end
 ---------------------------------------------------------
 
