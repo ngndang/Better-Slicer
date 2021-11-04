@@ -2,6 +2,10 @@
 
 Better Slicer is a handy Aseprite script for creating slices in large number with ease
 
+<br />
+
+For more information check out my [Itch page](https://ngndang.itch.io/better-slicer-for-aseprite) 
+>make sure to follow ^^ 
 
 <br />
 <br />
