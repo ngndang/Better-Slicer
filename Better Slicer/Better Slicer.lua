@@ -145,6 +145,15 @@ function updateDialog() --Hide/Unhide elements based on mode
 end
 updateDialog()
 
+------------------------Helper Functions------------------------------
+function clearSlices()
+	while #sprite.slices > 0 do 
+		for i, slice in ipairs(sprite.slices) do
+			sprite:deleteSlice(slice)
+		end
+	end
+end
+
 ------------------------by Size, by Number mode Functions------------------------------
 
 function doSlice() --Start
@@ -184,7 +193,7 @@ function GetBounds()
 end
 
 function sliceBySize()
-	if main_dialog.data.clear then clearSlice() end
+	if main_dialog.data.clear then clearSlices() end
 	data = main_dialog.data
 
 	GetBounds()
@@ -199,7 +208,7 @@ function sliceBySize()
 end
 
 function sliceByCount()
-	if main_dialog.data.clear then clearSlice() end
+	if main_dialog.data.clear then clearSlices() end
 	data = main_dialog.data
 
 	GetBounds()
@@ -281,14 +290,6 @@ local function createSlice(x, y, w, h)
     app.refresh()
     return slice
 end 
-
-function clearSlices()
-	while #sprite.slices > 0 do 
-		for i, slice in ipairs(sprite.slices) do
-			sprite:deleteSlice(slice)
-		end
-	end
-end
 
 --------------------------Flood Fill-------------------------------
 local img 
